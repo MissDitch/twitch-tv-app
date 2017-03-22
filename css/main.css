@@ -1,0 +1,61 @@
+body {
+ font-family: "Open Sans", sans-serif;
+}
+
+h1 {  
+  font-size: 36px;
+  font-weight: 300;
+  text-align: center;
+  letter-spacing: -0.03125em; 
+}
+li {
+  list-style-type: none;
+  padding: 5px 0;
+}
+a {
+  padding: 5px 0;
+}
+a, a:focus, a:visited, button {
+  color: #0072ff;
+   transition: color 0.5s ease;
+}
+a:hover, a:active, button:hover, button:active {
+  color: #000000;  
+}
+a, a:hover, a:focus {
+  text-decoration: none;
+}
+img {
+    width: 40px;
+    height: 40px;
+}
+.container {
+  position: relative;
+  padding: 0px 0;
+}
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+}
+.no-gutters > .col,
+.no-gutters > [class*="col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}
+.center {
+  text-align: center;
+}
+.invisible {
+  opacity: 0;
+}
+
+
+
+.inactiveLink {
+   pointer-events: none;
+   cursor: default;
+}
+img {
+    width: 40px;
+    height: 40px;
+}
