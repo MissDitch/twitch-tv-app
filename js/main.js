@@ -127,63 +127,52 @@ function showStreams(data) {
     }
     else {        
         for (var i = 0; i < length; i++) {  
-          var count = 1; 
-          
+          var className = ""; 
           var imageSource = "http://placehold.it/40x40";
-    var name = "";
-    var message = "";
-    var url = "";  
-
-    var streamer = null;  
+          var name = "";
+          var message = "";
+          var url = "";  
+          var streamer = null;  
    
           if (data[i].hasOwnProperty("stream") && data[i].stream !== null ) {
-             var stream = data[i].stream;
-            // var id = "div"+ count;
-          
+            var stream = data[i].stream;
+            className = "online"; 
             name = stream.display_name;
-            var id = "div"+ name;
-          
+            var id = "div"+ name;          
             imageSource = stream.logo;  
-            message = stream.status;  
+            message = stream.status;             
             url = stream.url;
-            streamer = createListItem(id,imageSource, name, message, url);  
+            streamer = createListItem(className, id,imageSource, name, message, url);  
             console.log(" online: " + name + " " + id);
-             streamers.appendChild(streamer); 
-            
-        
-        }
-       else if (data[i].hasOwnProperty("stream") && data[i].stream === null ) {
-         
-         // var id = "div"+ count;
+            streamers.appendChild(streamer);  
+          }
+
+          else if (data[i].hasOwnProperty("stream") && data[i].stream === null ) {
+            className = "offline";          
             name = data[i].display_name; 
             var id = "div"+ name;    
-             message = "Offline";  
-             url = "https://www.twitch.tv/" + name;    
+            message = "Offline";  
+            url = "https://www.twitch.tv/" + name;    
              //   console.log(url);
-             streamer = createListItem(id, imageSource, name, message, url); 
-                  console.log(" offline: " + name + " " + id);
+            streamer = createListItem(className, id, imageSource, name, message, url); 
+            //console.log(" offline: " + name + " " + id);
                 
-               streamers.appendChild(streamer);  
+            streamers.appendChild(streamer);  
 
-               getLogo(name, id);
-
-      
-    }
+            getLogo(name, id);      
+          }
     
-    else if ( data[i].hasOwnProperty("error")){
-        //console.log(data[i]);
-       // var id = "div"+ count;
-        imageSource = "http://placehold.it/40x40";
-        name = data[i].display_name;   
-        var id = "div"+ name;    
-        message = data[i].message;
-        url = "#";
-        streamer = createListItem(id, imageSource, name, message, url);  
-         console.log("error: " + name + " " + id);
-          streamers.appendChild(streamer);                 
-    }
-    
-         count++;             
+          else if ( data[i].hasOwnProperty("error")){
+            className = "error";       
+            imageSource = "http://placehold.it/40x40";
+            name = data[i].display_name;   
+            var id = "div"+ name;    
+            message = data[i].message;
+            url = "#";
+            streamer = createListItem(className, id, imageSource, name, message, url);  
+            //console.log("error: " + name + " " + id);
+            streamers.appendChild(streamer); 
+          } 
         }     
     }    
 }
@@ -204,27 +193,17 @@ function getLogo(name, id) {
 
              }).fail(function(err) {
               //  console.log(err);
-             });
-             
+             });           
 
 }
 
-function createMessage (message) {
-    var listItem = document.createElement("li");
-    var text = document.createTextNode(message);
-    listItem.appendChild(text);
-     return listItem;
-}
-
-function setImageUrl(string) {
-    return string;
-}
 
 //create individual listitem for streams list
- function createListItem(id, imageSource, name, message, url) {
+ function createListItem(className, id, imageSource, name, message, url) {
     var listItem = document.createElement("li");
    
     var div = document.createElement("div");
+    div.setAttribute("class", className);
 
     var image = document.createElement("img");
     image.setAttribute("src", imageSource);

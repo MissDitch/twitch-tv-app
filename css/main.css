@@ -62,3 +62,12 @@ img {
     width: 40px;
     height: 40px;
 }
+.online {
+  background-color: green;
+}
+.offline {
+  background-color: grey;
+}
+.error {
+  background-color: hotpink;
+}
