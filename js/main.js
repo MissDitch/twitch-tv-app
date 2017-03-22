@@ -126,7 +126,9 @@ function showStreams(data) {
         streamers.innerHTML = "Sorry, no streamers";
     }
     else {        
-        for (var i = 0; i < length; i++) {   
+        for (var i = 0; i < length; i++) {  
+          var count = 1; 
+          
           var imageSource = "http://placehold.it/40x40";
     var name = "";
     var message = "";
@@ -136,67 +138,75 @@ function showStreams(data) {
    
           if (data[i].hasOwnProperty("stream") && data[i].stream !== null ) {
              var stream = data[i].stream;
+            // var id = "div"+ count;
           
             name = stream.display_name;
+            var id = "div"+ name;
+          
             imageSource = stream.logo;  
             message = stream.status;  
             url = stream.url;
-            streamer = createListItem(imageSource, name, message, url);  
-            console.log(" online: " + streamer);
+            streamer = createListItem(id,imageSource, name, message, url);  
+            console.log(" online: " + name + " " + id);
              streamers.appendChild(streamer); 
             
         
         }
        else if (data[i].hasOwnProperty("stream") && data[i].stream === null ) {
-            name = data[i].display_name;     
+         
+         // var id = "div"+ count;
+            name = data[i].display_name; 
+            var id = "div"+ name;    
              message = "Offline";  
              url = "https://www.twitch.tv/" + name;    
-       //make ajax call for image 
-               imageUrl = "https://wind-bow.gomix.me/twitch-api/channels/esl_sc2";
+             //   console.log(url);
+             streamer = createListItem(id, imageSource, name, message, url); 
+                  console.log(" offline: " + name + " " + id);
+                
+               streamers.appendChild(streamer);  
 
-            // url = data[i]._links.channel + "client_id=<client_id>";
-//console.log(url);
+               getLogo(name, id);
+
+      
+    }
+    
+    else if ( data[i].hasOwnProperty("error")){
+        //console.log(data[i]);
+       // var id = "div"+ count;
+        imageSource = "http://placehold.it/40x40";
+        name = data[i].display_name;   
+        var id = "div"+ name;    
+        message = data[i].message;
+        url = "#";
+        streamer = createListItem(id, imageSource, name, message, url);  
+         console.log("error: " + name + " " + id);
+          streamers.appendChild(streamer);                 
+    }
+    
+         count++;             
+        }     
+    }    
+}
+
+function getLogo(name, id) {
+   //make ajax call for image 
+    imageUrl = "https://wind-bow.gomix.me/twitch-api/channels/" + name.toLowerCase();
+  console.log(imageUrl);
+  
              $.ajax({
                  url: imageUrl,
                  dataType: "jsonp"
              }).done(function(data){
-                 console.log("result of ajax call for image source is: " + data);
-                 imageSource = data.logo;
-                 console.log(imageSource);
-                 
-            
-                 //var streamer = createListItem(imageSource, name, message, url);       
-           // streamers.appendChild(streamer);
+                 console.log("result of ajax call for image source is: " + data.logo);
+                 var image = document.getElementById(id);
+                 image.setAttribute("src", data.logo);
+          
 
              }).fail(function(err) {
               //  console.log(err);
              });
              
-             streamer = createListItem(imageSource, name, message, url); 
-                  console.log(" offline: " + streamer);
-               streamers.appendChild(streamer);  
-             
-             
-             
-    }
-    
-    else if ( data[i].hasOwnProperty("error")){
-        //console.log(data[i]);
-        imageSource = "http://placehold.it/40x40";
-        name = data[i].display_name;       
-        message = data[i].message;
-        url = "#";
-        streamer = createListItem(imageSource, name, message, url);  
-         console.log("error: " + streamer);
-          streamers.appendChild(streamer); 
-                
-    }
 
-    
-            
-           
-        }     
-    }    
 }
 
 function createMessage (message) {
@@ -211,13 +221,14 @@ function setImageUrl(string) {
 }
 
 //create individual listitem for streams list
- function createListItem(imageSource, name, message, url) {
+ function createListItem(id, imageSource, name, message, url) {
     var listItem = document.createElement("li");
    
     var div = document.createElement("div");
 
     var image = document.createElement("img");
     image.setAttribute("src", imageSource);
+    image.setAttribute("id", id );
     div.appendChild(image);    
 
     var a = document.createElement("a");

@@ -8,6 +8,9 @@ h1 {
   text-align: center;
   letter-spacing: -0.03125em; 
 }
+h3 {
+  text-align: center;
+}
 li {
   list-style-type: none;
   padding: 5px 0;
