@@ -138,38 +138,38 @@ function showStreams(data) {
             var stream = data[i].stream;
             className = "online"; 
             name = stream.display_name;
-            var id = "div"+ name;          
+           // var id = name;          
             imageSource = stream.logo;  
             message = stream.status;             
             url = stream.url;
-            streamer = createListItem(className, id,imageSource, name, message, url);  
-            console.log(" online: " + name + " " + id);
+            streamer = createListItem(className,imageSource, name, message, url);  
+            console.log(" online: " + name );
             streamers.appendChild(streamer);  
           }
 
           else if (data[i].hasOwnProperty("stream") && data[i].stream === null ) {
             className = "offline";          
             name = data[i].display_name; 
-            var id = "div"+ name;    
+           // var id = name;    
             message = "Offline";  
             url = "https://www.twitch.tv/" + name;    
              //   console.log(url);
-            streamer = createListItem(className, id, imageSource, name, message, url); 
-            //console.log(" offline: " + name + " " + id);
+            streamer = createListItem(className, imageSource, name, message, url); 
+            console.log(" offline: " + name );
                 
             streamers.appendChild(streamer);  
-
-            getLogo(name, id);      
+             //console.log(name);
+            getLogo(name);      
           }
     
           else if ( data[i].hasOwnProperty("error")){
             className = "error";       
             imageSource = "http://placehold.it/40x40";
             name = data[i].display_name;   
-            var id = "div"+ name;    
+            //var id = name;    
             message = data[i].message;
             url = "#";
-            streamer = createListItem(className, id, imageSource, name, message, url);  
+            streamer = createListItem(className, imageSource, name, message, url);  
             //console.log("error: " + name + " " + id);
             streamers.appendChild(streamer); 
           } 
@@ -177,37 +177,51 @@ function showStreams(data) {
     }    
 }
 
-function getLogo(name, id) {
-   //make ajax call for image 
-    imageUrl = "https://wind-bow.gomix.me/twitch-api/channels/" + name.toLowerCase();
-  console.log(imageUrl);
-  
+function getLogo(name) {
+  imageUrl = "https://wind-bow.gomix.me/twitch-api/channels/" + name.toLowerCase();
+  // console.log("inside getLogo imageUrl is: " + imageUrl + " and name is: " + name);
+
+  /*
              $.ajax({
                  url: imageUrl,
-                 dataType: "jsonp"
+                 dataType: "jsonp"  // to avoid blocking request by CORS policy
              }).done(function(data){
                  console.log("result of ajax call for image source is: " + data.logo);
                  var image = document.getElementById(id);
                  image.setAttribute("src", data.logo);
-          
-
              }).fail(function(err) {
-              //  console.log(err);
-             });           
+                console.log(err);
+             });  
+*/
 
+// https://blog.garstasio.com/you-dont-need-jquery/ajax/
+
+  window.myJsonpCallback = function (data) {
+    //console.log("result of ajax call for image source is: " + data.logo);
+    var image = document.getElementById(data.display_name);
+    //console.log("Inside myJsonpCallback name is: " + data.display_name);
+    image.setAttribute("src", data.logo);
+  } 
+
+  imageUrl += "?callback=myJsonpCallback";
+
+  var scriptEl = document.createElement('script');
+  scriptEl.setAttribute("src", imageUrl); 
+  document.body.appendChild(scriptEl);
 }
 
 
 //create individual listitem for streams list
- function createListItem(className, id, imageSource, name, message, url) {
+ function createListItem(className,imageSource, name, message, url) {
     var listItem = document.createElement("li");
    
     var div = document.createElement("div");
     div.setAttribute("class", className);
 
     var image = document.createElement("img");
+    image.setAttribute("id", name );
     image.setAttribute("src", imageSource);
-    image.setAttribute("id", id );
+    
     div.appendChild(image);    
 
     var a = document.createElement("a");
