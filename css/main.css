@@ -1,14 +1,17 @@
 body {
- font-family: "Open Sans", sans-serif;
+ font-family: 'Helvetica Neue', Helvetica, sans-serif;  
+ //font-family: 'Orbitron', sans-serif;
 }
 
 h1 {  
+  font-family: 'Orbitron', sans-serif;
   font-size: 36px;
-  font-weight: 300;
+  font-weight: 700;
   text-align: center;
   letter-spacing: -0.03125em; 
 }
 h3 {
+  font-family: 'Orbitron', sans-serif;
   text-align: center;
 }
 li {
@@ -19,14 +22,22 @@ a {
   padding: 5px 0;
 }
 a, a:focus, a:visited, button {
-  color: #0072ff;
+  color: #FFFFFF;
    transition: color 0.5s ease;
 }
-a:hover, a:active, button:hover, button:active {
-  color: #000000;  
+a:hover, a:active {
+  color: #433f4a;  
 }
 a, a:hover, a:focus {
   text-decoration: none;
+}
+button {
+  background-color: #433f4a;
+  border: none;
+}
+button:hover, button:active {
+  background-color: #12a6df;
+  color: #433f4a;  
 }
 img {
     width: 40px;
@@ -36,23 +47,28 @@ img {
   position: relative;
   padding: 0px 0;
 }
-.no-gutters {
-  margin-right: 0;
-  margin-left: 0;
-}
-.no-gutters > .col,
-.no-gutters > [class*="col-"] {
-  padding-right: 0;
-  padding-left: 0;
-}
 .center {
   text-align: center;
 }
-.invisible {
-  opacity: 0;
+/*.invisible {
+  display: none;
+} */
+.streamer-bar {
+  background-color: #433f4a;
+}
+.streamer-bar-item {
+  background-color: none;
 }
 
-
+.twitch-purple {
+  background-color: #7d5bbe;
+}
+.twitch-blue {
+  background-color: #12a6df;
+}
+.twitch-black {
+  background-color: #433f4a;
+}
 
 .inactiveLink {
    pointer-events: none;
@@ -61,6 +77,9 @@ img {
 img {
     width: 40px;
     height: 40px;
+}
+li.streamer > div {
+  display: block;
 }
 .online {
   background-color: green;

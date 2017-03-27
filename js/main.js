@@ -113,6 +113,94 @@ GET requests only, and serves only routes /users/:user, /channels/:channel,
 and /streams/:stream. These are more than enough to complete the challenge.
 */
 
+//initialize
+function init() {
+  var all = document.getElementById("all");
+  var online = document.getElementById("online");
+  var offline = document.getElementById("offline");
+
+  all.addEventListener("click", showTab, false);
+  all.param = "all";
+  online.addEventListener("click", showTab, false);
+  online.param = "online";
+  offline.addEventListener("click", showTab, false);
+  offline.param = "offline";
+
+  showStreams(data);
+}
+
+//tabbed list display
+function showTab(e) {
+ //e.preventDefault();
+ var param = e.target.param;
+ console.log(param);
+  var i, streamers, tablinks;
+  streamers = document.querySelectorAll("li.streamer > div");
+ console.log(streamers);
+     for (i = 0; i < streamers.length; i++) {
+       console.log(streamers[i].className);
+       if(param === "all" ) {
+        // streamers[i].style.removeProperty("display") ;
+       }
+    if(streamers[i].className === param) {
+      streamers[i].style.display = "block";
+    } else {
+        streamers[i].style.display = "none";
+    }
+     }
+
+ 
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" twitch-purple", "");
+  }
+ /* var selection = document.getElementsByClassName(param);
+  for (i = 0; i < selection.length; i++) {
+  // if (selection === "all")
+    selection[i].style.display = "visible";
+  } */
+  e.target.className += " twitch-purple";
+}
+
+
+//create individual listitem for streams list
+ function createListItem(className,imageSource, name, message, url) {
+    var listItem = document.createElement("li");
+    listItem.setAttribute("class", "streamer");
+   
+    var div = document.createElement("div");
+    div.setAttribute("class", className);
+   // div.style.display = "block";
+
+    var image = document.createElement("img");
+    image.setAttribute("id", name );
+    image.setAttribute("src", imageSource);
+    
+    div.appendChild(image);    
+
+    var a = document.createElement("a");
+    a.setAttribute("href", url);
+    if (url === "#") {
+        a.setAttribute("class", "inactiveLink");
+    }
+    else {        
+        a.setAttribute("target", "_blank");
+    }
+    
+    var text = document.createTextNode(name);
+    a.appendChild(text);
+    div.appendChild(a);
+
+    var p = document.createElement("p");
+    text = document.createTextNode(message);
+    p.appendChild(text);
+    div.appendChild(p);
+
+    listItem.appendChild(div);
+ 
+    return listItem;
+}
+
 //show streams list
 function showStreams(data) {
     var results = document.getElementsByClassName("results");
@@ -211,40 +299,4 @@ function getLogo(name) {
 }
 
 
-//create individual listitem for streams list
- function createListItem(className,imageSource, name, message, url) {
-    var listItem = document.createElement("li");
-   
-    var div = document.createElement("div");
-    div.setAttribute("class", className);
-
-    var image = document.createElement("img");
-    image.setAttribute("id", name );
-    image.setAttribute("src", imageSource);
-    
-    div.appendChild(image);    
-
-    var a = document.createElement("a");
-    a.setAttribute("href", url);
-    if (url === "#") {
-        a.setAttribute("class", "inactiveLink");
-    }
-    else {        
-        a.setAttribute("target", "_blank");
-    }
-    
-    var text = document.createTextNode(name);
-    a.appendChild(text);
-    div.appendChild(a);
-
-    var p = document.createElement("p");
-    text = document.createTextNode(message);
-    p.appendChild(text);
-    div.appendChild(p);
-
-    listItem.appendChild(div);
- 
-    return listItem;
-}
-
-showStreams(data);
+init();
