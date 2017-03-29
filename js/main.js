@@ -120,10 +120,16 @@ function init() {
   var offline = document.getElementById("offline");
 
   all.addEventListener("click", showTab, false);
-  all.param = "all";
+  /* I wanted to pass an argument to the addEventListener function
+  http://stackoverflow.com/questions/256754/how-to-pass-arguments-to-addeventlistener-listener-function
+   the second answer provides the right solution: 
+   Get the argument from the event target attribute?
+  */
   online.addEventListener("click", showTab, false);
+  // here I add an attribute to the event's target, it's value is equal to the argument
   online.param = "online";
   offline.addEventListener("click", showTab, false);
+  // same here
   offline.param = "offline";
 
   showStreams(data);
@@ -131,34 +137,32 @@ function init() {
 
 //tabbed list display
 function showTab(e) {
- //e.preventDefault();
- var param = e.target.param;
- console.log(param);
   var i, streamers, tablinks;
   streamers = document.querySelectorAll("li.streamer > div");
- console.log(streamers);
-     for (i = 0; i < streamers.length; i++) {
-       console.log(streamers[i].className);
-       if(param === "all" ) {
-        // streamers[i].style.removeProperty("display") ;
-       }
-    if(streamers[i].className === param) {
-      streamers[i].style.display = "block";
-    } else {
-        streamers[i].style.display = "none";
-    }
-     }
 
- 
+  for (i = 0; i < streamers.length; i++) {
+    if (e.target.hasOwnProperty("param")) {
+      // get argument:
+      var param = e.target.param;
+      if (streamers[i].className === param) {
+        streamers[i].style.display = "block";
+      } else {
+          streamers[i].style.display = "none";
+      }          
+    }
+    else {
+      /* remove the inline styles, so 'display' goes back to what was defined in css
+      http://stackoverflow.com/questions/21457904/change-element-display-none-back-to-default-style-value-js
+       */
+      streamers[i].style.removeProperty("display") ;  
+    }    
+  }
+   
   tablinks = document.getElementsByClassName("tablink");
+  
   for (i = 0; i < tablinks.length; i++) {
       tablinks[i].className = tablinks[i].className.replace(" twitch-purple", "");
-  }
- /* var selection = document.getElementsByClassName(param);
-  for (i = 0; i < selection.length; i++) {
-  // if (selection === "all")
-    selection[i].style.display = "visible";
-  } */
+  } 
   e.target.className += " twitch-purple";
 }
 
