@@ -1,3 +1,6 @@
+/* Instead of using Twitch's API, FCC recommends hard-coding a JSON into the app as a variable. 
+It is a series of responses for different accounts from Twitch. */
+
 var data = [
   {
     "stream": {
@@ -103,16 +106,6 @@ var data = [
   }
 ]
 
-/* 
-Replace the Twitch API base URL https://api.twitch.tv/kraken with 
-https://wind-bow.gomix.me/twitch-api. Use this endpoint according to the Twitch API documentation.
-
-NOTE:
-This server caches data to lower the request rate. To prevent abuses this server accepts 
-GET requests only, and serves only routes /users/:user, /channels/:channel, 
-and /streams/:stream. These are more than enough to complete the challenge.
-*/
-
 //initialize
 function init() {
   var all = document.getElementById("all");
@@ -166,41 +159,48 @@ function showTab(e) {
   e.target.className += " twitch-purple";
 }
 
+//helper functions
+function createNode(element) {
+  return document.createElement(element);
+}
+
+function createText(string) {
+  return document.createTextNode(string);
+}
+
+function append(parent, el) {
+  return parent.appendChild(el);
+}
 
 //create individual listitem for streams list
  function createListItem(className,imageSource, name, message, url) {
-    var listItem = document.createElement("li");
+    var listItem = createNode("li");
     listItem.setAttribute("class", "streamer");
    
-    var div = document.createElement("div");
+    var div = createNode("div");
     div.setAttribute("class", className);
-   // div.style.display = "block";
-
-    var image = document.createElement("img");
+    var image = createNode("img");
     image.setAttribute("id", name );
-    image.setAttribute("src", imageSource);
-    
-    div.appendChild(image);    
+    image.setAttribute("src", imageSource);    
+    append(div, image); 
 
-    var a = document.createElement("a");
+    var a = createNode("a");
     a.setAttribute("href", url);
     if (url === "#") {
         a.setAttribute("class", "inactiveLink");
     }
     else {        
         a.setAttribute("target", "_blank");
-    }
-    
-    var text = document.createTextNode(name);
-    a.appendChild(text);
-    div.appendChild(a);
+    }    
+    var text = createText(name);
+    append(a, text);
+    append(div, a);
 
-    var p = document.createElement("p");
-    text = document.createTextNode(message);
-    p.appendChild(text);
-    div.appendChild(p);
-
-    listItem.appendChild(div);
+    var p = createNode("p");
+    text = createText(message);
+    append(p, text);
+    append(div, p);
+    append(listItem, div);
  
     return listItem;
 }
@@ -208,90 +208,77 @@ function showTab(e) {
 //show streams list
 function showStreams(data) {
     var results = document.getElementsByClassName("results");
-    //results[0].classList.add("active");
     var streamers = document.getElementById('streamers');
     var length = data.length;
-
     
-    console.log("Data is: " + data);
     if (length === 0) {
         streamers.innerHTML = "Sorry, no streamers";
     }
     else {        
-        for (var i = 0; i < length; i++) {  
-          var className = ""; 
-          var imageSource = "http://placehold.it/40x40";
-          var name = "";
-          var message = "";
-          var url = "";  
-          var streamer = null;  
+      for (var i = 0; i < length; i++) {  
+        var className = ""; 
+        var imageSource = "http://placehold.it/40x40";
+        var name = "";
+        var message = "";
+        var url = "";  
+        var streamer = null;  
    
-          if (data[i].hasOwnProperty("stream") && data[i].stream !== null ) {
-            var stream = data[i].stream;
-            className = "online"; 
-            name = stream.display_name;
-           // var id = name;          
-            imageSource = stream.logo;  
-            message = stream.status;             
-            url = stream.url;
-            streamer = createListItem(className,imageSource, name, message, url);  
-            console.log(" online: " + name );
-            streamers.appendChild(streamer);  
-          }
+        if (data[i].hasOwnProperty("stream") && data[i].stream !== null ) {
+          var stream = data[i].stream;
+          className = "online"; 
+          name = stream.display_name;       
+          imageSource = stream.logo;  
+          message = stream.status;             
+          url = stream.url;
 
-          else if (data[i].hasOwnProperty("stream") && data[i].stream === null ) {
-            className = "offline";          
-            name = data[i].display_name; 
-           // var id = name;    
-            message = "Offline";  
-            url = "https://www.twitch.tv/" + name;    
-             //   console.log(url);
-            streamer = createListItem(className, imageSource, name, message, url); 
-            console.log(" offline: " + name );
-                
-            streamers.appendChild(streamer);  
-             //console.log(name);
-            getLogo(name);      
-          }
+          streamer = createListItem(className,imageSource, name, message, url);  
+          append(streamers, streamer);   
+        }
+
+        else if (data[i].hasOwnProperty("stream") && data[i].stream === null ) {
+          className = "offline";          
+          name = data[i].display_name;   
+          message = "Offline";  
+          url = "https://www.twitch.tv/" + name;    
+      
+          streamer = createListItem(className, imageSource, name, message, url);                 
+          append(streamers, streamer);  
+
+          //there is no logo attribute if stream is null, so logo has to be fetched
+          getLogo(name);      
+        }
     
-          else if ( data[i].hasOwnProperty("error")){
-            className = "error";       
-            imageSource = "http://placehold.it/40x40";
-            name = data[i].display_name;   
-            //var id = name;    
-            message = data[i].message;
-            url = "#";
-            streamer = createListItem(className, imageSource, name, message, url);  
-            //console.log("error: " + name + " " + id);
-            streamers.appendChild(streamer); 
-          } 
-        }     
+        else if ( data[i].hasOwnProperty("error")){
+          className = "error";       
+          imageSource = "http://placehold.it/40x40";
+          name = data[i].display_name;      
+          message = data[i].message;
+          url = "#";
+
+          streamer = createListItem(className, imageSource, name, message, url);  
+          append(streamers, streamer); 
+        } 
+      }     
     }    
 }
 
-function getLogo(name) {
-  imageUrl = "https://wind-bow.gomix.me/twitch-api/channels/" + name.toLowerCase();
-  // console.log("inside getLogo imageUrl is: " + imageUrl + " and name is: " + name);
+/* 
+Replace the Twitch API base URL https://api.twitch.tv/kraken with 
+https://wind-bow.gomix.me/twitch-api. Use this endpoint according to the Twitch API documentation.
 
-  /*
-             $.ajax({
-                 url: imageUrl,
-                 dataType: "jsonp"  // to avoid blocking request by CORS policy
-             }).done(function(data){
-                 console.log("result of ajax call for image source is: " + data.logo);
-                 var image = document.getElementById(id);
-                 image.setAttribute("src", data.logo);
-             }).fail(function(err) {
-                console.log(err);
-             });  
+NOTE:
+This server caches data to lower the request rate. To prevent abuses this server accepts 
+GET requests only, and serves only routes /users/:user, /channels/:channel, 
+and /streams/:stream. These are more than enough to complete the challenge.
 */
 
-// https://blog.garstasio.com/you-dont-need-jquery/ajax/
+// fetch logo if streamer is offline (stream is null)
+function getLogo(name) {
+  imageUrl = "https://wind-bow.gomix.me/twitch-api/channels/" + name.toLowerCase(); 
 
+  // https://blog.garstasio.com/you-dont-need-jquery/ajax/
   window.myJsonpCallback = function (data) {
-    //console.log("result of ajax call for image source is: " + data.logo);
     var image = document.getElementById(data.display_name);
-    //console.log("Inside myJsonpCallback name is: " + data.display_name);
     image.setAttribute("src", data.logo);
   } 
 
@@ -301,6 +288,5 @@ function getLogo(name) {
   scriptEl.setAttribute("src", imageUrl); 
   document.body.appendChild(scriptEl);
 }
-
 
 init();
