@@ -138,16 +138,16 @@ function showTab(e) {
       // get argument:
       var param = e.target.param;
       if (streamers[i].className === param) {
-        streamers[i].style.display = "block";
+        streamers[i].parentElement.style.display = "block";
       } else {
-          streamers[i].style.display = "none";
+          streamers[i].parentElement.style.display = "none";
       }          
     }
     else {
       /* remove the inline styles, so 'display' goes back to what was defined in css
       http://stackoverflow.com/questions/21457904/change-element-display-none-back-to-default-style-value-js
        */
-      streamers[i].style.removeProperty("display") ;  
+      streamers[i].parentElement.style.removeProperty("display") ;  
     }    
   }
    
