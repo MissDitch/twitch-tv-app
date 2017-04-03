@@ -1,5 +1,7 @@
 body {
-  font-family: 'Orbitron', sans-serif;
+  /* font-family: 'Orbitron', sans-serif; 
+  font-family: 'Montserrat Alternates', sans-serif; */
+  font-family: 'Play', sans-serif;
   font-weight: 500;
   letter-spacing: 0.03em;
 }
@@ -23,6 +25,26 @@ ul#streamers {
     padding: 0px;
     margin: 5px 0;
 }
+
+@keyframes flipHorizontal {
+  0% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0deg); }
+}
+@-webkit-keyframes flipHorizontal {
+  0% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0deg); }
+}
+@-moz-keyframes flipHorizontal {
+  0% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0deg); }
+}
+@-o-keyframes flipHorizontal {
+  0% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0deg); }
+}
+li.streamer {
+  //display: none;
+}
 li.streamer > div {
   display: flex;
   flex-direction: row;
@@ -30,6 +52,12 @@ li.streamer > div {
   border-radius: 5px;
   color: #ffffff;
   padding: 5px;
+  transform: rotateX(90deg);
+
+  -webkit-animation:  flipHorizontal .65s .5s forwards;
+  -moz-animation: flipHorizontal .65s .5s forwards;
+  -o-animation: flipHorizontal .65s .5s forwards;
+  animation: flipHorizontal .65s .5s forwards;
 }
 li.streamer a {
   font-size: 20px;
@@ -69,6 +97,9 @@ button {
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.05em;
+  
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 button:hover{
   background-color: #7d5bbe;
@@ -98,7 +129,8 @@ img {
 .streamer-bar {
   background-color: #433f4a;
   border-radius: 5px;
-  //padding: 2px;
+  perspective: 300px;
+  -webkit-perspective: 300px;
 }
 .streamer-bar-item {
   background-color: none;
@@ -132,11 +164,23 @@ img {
 @media only screen and (min-width : 62em) {  /* 992 / 16 = 62em */
   h1 {
     font-size: 54px;
+    letter-spacing: 0em;
   }
   button:hover{
   background-color: #12a6df;
   //color: #433f4a;  
-}
+  -webkit-transform: scale(1.05, 1.05); -webkit-box-shadow:10px 10px 20px #000000;
+  transform: scale(1.05, 1.05); box-shadow:10px 10px 20px #000000; 
+  
+
+  }
+  .streamer-bar {
+    
+  }
+  li.streamer a {
+    font-size: 24px;
+    letter-spacing: 0.02em;
+  }
 }
 
 /* Large Devices, Wide Screens */
