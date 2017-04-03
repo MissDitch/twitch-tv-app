@@ -22,7 +22,7 @@
     
     <h1>TWITCH STREAMERS</h1>  
     <h3 class="purple">View Source code on <a href="https://github.com/MissDitch/twitch-tv-app" target="_blank" >GitHub</a></h3>
-
+    
     <div class="results">  
 
        <div class="streamer-bar">
@@ -30,6 +30,14 @@
          <button id="online" class="streamer-bar-item streamer-button tablink" >ONLINE</button>
          <button id="offline" class="streamer-bar-item streamer-button tablink" >OFFLINE</button>
        </div>
+
+       <div>
+       <form id="form-container" class="form-container" >
+         <input type="text" id="searchBox" autocomplete="off" value="">          
+          <!--  <button id="searchBtn" type="button">GO</button>  -->
+       </form>    
+
+    </div>
 
         <ul id="streamers"></ul>
 

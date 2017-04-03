@@ -111,6 +111,7 @@ function init() {
   var all = document.getElementById("all");
   var online = document.getElementById("online");
   var offline = document.getElementById("offline");
+  var searchBox = document.getElementById('searchBox');
 
   all.addEventListener("click", showTab, false);
   /* I wanted to pass an argument to the addEventListener function
@@ -124,6 +125,8 @@ function init() {
   offline.addEventListener("click", showTab, false);
   // same here
   offline.param = "offline";
+
+  searchBox.addEventListener("keyup", searchStreamer);
 
   showStreams(data);
 }
@@ -165,6 +168,41 @@ function showTab(e) {
       tablinks[i].className = tablinks[i].className.replace(" twitch-purple", "");
   } 
   e.target.className += " twitch-purple";
+}
+
+function searchStreamer() {
+  var i, string, searchBox, list, listItems,streamers, listEl;
+  searchBox = document.getElementById('searchBox');
+  string = searchBox.value;
+  list = document.getElementById("streamers");
+  listItems = document.querySelectorAll("li.streamer");
+  streamers = document.querySelectorAll("li.streamer > div");    
+
+  
+  if (string.length > 1) {
+   // list.innerHTML = "";
+    for (i = 0; i < streamers.length; i++) {
+    var c = streamers[i].childNodes;
+    var name = c[1].text.toLowerCase();
+// console.log(name);
+    console.log(string);
+    if (!name.startsWith(string)) {
+      console.log(name);
+      streamers[i].parentElement.style.display = "none";
+      
+    } else {
+      append(list, listItems[i]);
+    }
+    
+  } 
+}
+  
+  else if (string.length === 1) {
+     for (i = 0; i < listItems.length; i++) {
+       listItems[i].style.display = "block";
+    append(list, listItems[i]);  
+    }
+  } 
 }
 
 //helper functions
