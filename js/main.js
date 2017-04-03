@@ -130,17 +130,24 @@ function init() {
 
 //tabbed list display
 function showTab(e) {
-  var i, streamers, tablinks;
-  streamers = document.querySelectorAll("li.streamer > div");
+  var i, list, listItems,streamers, tablinks, listEl;
+  list = document.getElementById("streamers");
+  listItems = document.querySelectorAll("li.streamer");
+  streamers = document.querySelectorAll("li.streamer > div");   
+
+  list.innerHTML = "";
 
   for (i = 0; i < streamers.length; i++) {
+    listEl = streamers[i].parentElement;
+    
     if (e.target.hasOwnProperty("param")) {
       // get argument:
       var param = e.target.param;
-      if (streamers[i].className === param) {
-        streamers[i].parentElement.style.display = "block";
+      listEl.style.display = "none";
+      if (streamers[i].className === param) {        
+        listEl.style.display = "block";
       } else {
-          streamers[i].parentElement.style.display = "none";
+          listEl.style.display = "none";
       }          
     }
     else {
@@ -148,9 +155,10 @@ function showTab(e) {
       http://stackoverflow.com/questions/21457904/change-element-display-none-back-to-default-style-value-js
        */
       streamers[i].parentElement.style.removeProperty("display") ;  
-    }    
+    }   
+    append(list, listItems[i]); 
   }
-   
+
   tablinks = document.getElementsByClassName("tablink");
   
   for (i = 0; i < tablinks.length; i++) {
