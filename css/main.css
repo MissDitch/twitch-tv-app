@@ -82,6 +82,7 @@ p {
   font-weight: 300;
   flex-basis: 100%;
   letter-spacing: 0.05em;
+  margin: 0px 0px 5px 0px;
 }
 button {
   outline: none;
@@ -107,7 +108,6 @@ img {
   height: 45px;
   border: 2px solid;
   margin: 0px 10px 5px 0px;
-
 }
 .container {
   display: flex;
@@ -115,14 +115,6 @@ img {
   flex-wrap: wrap;
   justify-content: center;
 }
-
-.center {
-  text-align: center;
-}
-/*.invisible {
-  opacity: 0;
-} */
-
 .streamer-bar {
   background-color: #433f4a;
   border-radius: 5px;
@@ -165,18 +157,15 @@ img {
   }
   button:hover{
   background-color: #12a6df;
-  //color: #433f4a;  
   -webkit-transform: scale(1.05, 1.05); -webkit-box-shadow:10px 10px 20px #000000;
   transform: scale(1.05, 1.05); box-shadow:10px 10px 20px #000000; 
-  
-
-  }
-  .streamer-bar {
-    
-  }
+  }  
   li.streamer a {
     font-size: 24px;
     letter-spacing: 0.02em;
+  }
+  .container {
+    padding: 0 100px;
   }
 }
 
