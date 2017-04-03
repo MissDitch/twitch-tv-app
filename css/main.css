@@ -104,16 +104,14 @@ button:hover{
   color: #ffffff;  
 }
 img {
-  width: 45px;
-  height: 45px;
+  width: 39px;
+  height: 39px;
   border: 2px solid;
   margin: 0px 10px 5px 0px;
 }
 .container {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 .streamer-bar {
   background-color: #433f4a;
@@ -149,12 +147,39 @@ img {
   background-color: rgba(67, 63, 74, 0.6);
 }
 
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 20em) {  /* 320 / 16 = 20em */
+ 
+}   
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (min-width : 30em) {  /* 480 / 16 = 30em */
+   h1 {
+    font-size: 34px;
+   }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 48em) {  /* 768 / 16 =  48em */
+  h1 {
+    font-size: 44px;
+    letter-spacing: 0em;
+  }
+  img {
+  width: 45px;
+  height: 45px;
+  }
+  .container {
+    padding: 0 50px;
+  }
+}
+
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 62em) {  /* 992 / 16 = 62em */
   h1 {
     font-size: 54px;
-    letter-spacing: 0em;
   }
+ 
   button:hover{
   background-color: #12a6df;
   -webkit-transform: scale(1.05, 1.05); -webkit-box-shadow:10px 10px 20px #000000;
@@ -171,5 +196,8 @@ img {
 
 /* Large Devices, Wide Screens */
 @media only screen and (min-width : 75em) { /* 1200 / 16 = 75em */
+  .container {
+    padding: 0 140px;
+  }
   
 }
