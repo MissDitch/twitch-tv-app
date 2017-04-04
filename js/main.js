@@ -171,38 +171,42 @@ function showTab(e) {
 }
 
 function searchStreamer() {
-  var i, string, searchBox, list, listItems,streamers, listEl;
-  searchBox = document.getElementById('searchBox');
+  var i, string, searchBox, message, list, listItems,streamers, listEl;
+  searchBox = document.getElementById("searchBox");
+  message = document.getElementById("message");
   string = searchBox.value;
+
   list = document.getElementById("streamers");
   listItems = document.querySelectorAll("li.streamer");
   streamers = document.querySelectorAll("li.streamer > div");    
-
+  message.innerHTML = "";
   
-  if (string.length > 1) {
-   // list.innerHTML = "";
+  if (string.length > 0) {
+    var found = false;
     for (i = 0; i < streamers.length; i++) {
-    var c = streamers[i].childNodes;
-    var name = c[1].text.toLowerCase();
-// console.log(name);
-    console.log(string);
-    if (!name.startsWith(string)) {
-      console.log(name);
-      streamers[i].parentElement.style.display = "none";
-      
-    } else {
-      append(list, listItems[i]);
+      var c = streamers[i].childNodes;
+      var name = c[1].text.toLowerCase();
+
+      if (!name.startsWith(string)) {
+        streamers[i].parentElement.style.display = "none";      
+      }
+      else {
+        //append(list, listItems[i]); //append changes the order of the listitems
+        insert(list, listItems[i], i);  // insert keeps the order intact
+        found = true;
+      } 
+    } 
+    if (!found) {
+      message.innerHTML = "No matching streamers found! Please try again.";
     }
-    
-  } 
-}
-  
-  else if (string.length === 1) {
-     for (i = 0; i < listItems.length; i++) {
-       listItems[i].style.display = "block";
-    append(list, listItems[i]);  
+  }  
+  if (string.length === 0) {
+    message.innerHTML = "";
+    for (i = 0; i < listItems.length; i++) {
+      listItems[i].style.display = "block";
+      append(list, listItems[i]);  
     }
-  } 
+  }
 }
 
 //helper functions
@@ -216,6 +220,12 @@ function createText(string) {
 
 function append(parent, el) {
   return parent.appendChild(el);
+}
+
+function insert(parent, el, index) {
+  var remChild = parent.removeChild(el);
+  return parent.insertBefore(remChild, parent.children[index]);
+  /* insertBefore() alone doesn't give the transform effect, but removing the element first does the trick*/
 }
 
 //create individual listitem for streams list

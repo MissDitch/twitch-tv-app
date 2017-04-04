@@ -1,6 +1,4 @@
 body {
-  /* font-family: 'Orbitron', sans-serif; 
-  font-family: 'Montserrat Alternates', sans-serif; */
   font-family: 'Play', sans-serif;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -22,8 +20,8 @@ li {
   padding: 5px 0;
 }
 ul#streamers {
-    padding: 0px;
-    margin: 5px 0;
+  padding: 0px;
+  margin: 0px 0;
 }
 
 @keyframes flipHorizontal {
@@ -80,9 +78,12 @@ h3.purple a {
 p {
   font-size: 14px;
   font-weight: 300;
-  flex-basis: 100%;
+  flex-basis: 100%;  /* initial size, 100% puts element on new line */
   letter-spacing: 0.05em;
-  margin: 0px 0px 5px 0px;
+  margin: 5px 0px 4px 0px;
+}
+p#message {
+  font-size: 12px;
 }
 button {
   outline: none;
@@ -104,14 +105,18 @@ button:hover{
   color: #ffffff;  
 }
 img {
-  width: 39px;
-  height: 39px;
+  width: 35px;
+  height: 35px;
   border: 2px solid;
+  border-radius: 5px;
   margin: 0px 10px 5px 0px;
+  -webkit-transform: scale(1.05, 1.05); -webkit-box-shadow:3px 3px 10px rgba(0,0,0,0.4), 6px 6px 20px rgba(0,0,0,0.45);
+  transform: scale(1.05, 1.05); box-shadow:3px 3px 10px rgba(0,0,0,0.4), 6px 6px 20px rgba(0,0,0,0.45);
 }
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 .streamer-bar {
   background-color: #433f4a;
@@ -121,6 +126,28 @@ img {
 }
 .streamer-bar-item {
   background-color: none;
+}
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px 0 10px 0;
+  font-size: 12px; 
+}
+.searchInput {
+  height: 16px;
+  border-radius: 5px;
+  outline: none;
+  padding: 3px 6px;
+  margin: 0 5px;
+  border-style: none;
+  border: 1px rgba(0,0,0,0.1) solid;
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.20), inset 4px 4px 8px rgba(0,0,0,0.25);
+  font-family: "FontAwesome", "Play";  /* first font is for placeholder, second is a fallback for input text 
+  Font Awesome uses the Unicode Private Use Area (PUA) to store icons. 
+  Other characters (non-icon text) are not present and fall back to the browser default. 
+  If you define a font on input elements somewhere, then supply the same font as fallback for situations where you use an icon: input { font-family: 'FontAwesome' YourFont; } */
 }
 
 .twitch-purple {
@@ -171,7 +198,7 @@ img {
   }
   .container {
     padding: 0 50px;
-  }
+  } 
 }
 
 /* Medium Devices, Desktops */
@@ -182,9 +209,9 @@ img {
  
   button:hover{
   background-color: #12a6df;
-  -webkit-transform: scale(1.05, 1.05); -webkit-box-shadow:10px 10px 20px #000000;
-  transform: scale(1.05, 1.05); box-shadow:10px 10px 20px #000000; 
-  }  
+  -webkit-transform: scale(1.05, 1.05); -webkit-box-shadow:3px 3px 10px rgba(0,0,0,0.4), 6px 6px 20px rgba(0,0,0,0.45);
+  transform: scale(1.05, 1.05); box-shadow:3px 3px 10px rgba(0,0,0,0.4), 6px 6px 20px rgba(0,0,0,0.45);
+}
   li.streamer a {
     font-size: 24px;
     letter-spacing: 0.02em;
